@@ -20,22 +20,12 @@
 ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
-#include "Mat2.h"
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd )
 {
-	const float dTheta = 2.0 * PI / (2 * nFlares);
-	for (int i = 0; i < 2 * nFlares; i++)
-	{
-		const float radius = i % 2 == 0 ? radOuter : radInner;
-		star.emplace_back(
-			radius * cos(dTheta * (float)i),
-			radius * sin(dTheta * (float)i)
-		);
-	}
 }
 
 void Game::Go()
@@ -48,25 +38,8 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (!wnd.kbd.KeyIsPressed(VK_SPACE))
-	{
-		theta += vRot;
-	}
 }
 
 void Game::ComposeFrame()
 {
-	const Vec2 translate = { float(gfx.ScreenWidth) / 2.0f, float(gfx.ScreenHeight) / 2.0f };
-	const Mat2 transform = Mat2::Rotation(theta) * Mat2::Scaling(size);
-	auto vtx(star);
-	for (auto& v : vtx)
-	{
-		v *= transform;
-		v += translate;
-	}
-	for (auto i = vtx.cbegin(), end = std::prev(vtx.cend()); i != end; i++)
-	{
-		gfx.DrawLine(*i, *std::next(i), Colors::White);
-	}
-	gfx.DrawLine(vtx.front(), vtx.back(), Colors::White);
 }
