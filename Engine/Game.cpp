@@ -22,14 +22,18 @@
 #include "Game.h"
 #include "SolidCubeScene.h"
 #include "CubeOrderScene.h"
+#include "ConHexScene.h"
+#include "ConHexWireScene.h"
 
-Game::Game(MainWindow& wnd)
+Game::Game( MainWindow& wnd )
 	:
-	wnd(wnd),
-	gfx(wnd)
+	wnd( wnd ),
+	gfx( wnd )
 {
-	scenes.push_back(std::make_unique<SolidCubeScene>());
-	scenes.push_back(std::make_unique<CubeOrderScene>());
+	scenes.push_back( std::make_unique<SolidCubeScene>() );
+	scenes.push_back( std::make_unique<CubeOrderScene>() );
+	scenes.push_back( std::make_unique<ConHexScene>() );
+	scenes.push_back( std::make_unique<ConHexWireScene>() );
 	curScene = scenes.begin();
 }
 
@@ -45,21 +49,21 @@ void Game::UpdateModel()
 {
 	const float dt = 1.0f / 60.0f;
 	// cycle through scenes when tab is pressed
-	while (!wnd.kbd.KeyIsEmpty())
+	while( !wnd.kbd.KeyIsEmpty() )
 	{
 		const auto e = wnd.kbd.ReadKey();
-		if (e.GetCode() == VK_TAB && e.IsPress())
+		if( e.GetCode() == VK_TAB && e.IsPress() )
 		{
 			CycleScenes();
 		}
 	}
 	// update scene
-	(*curScene)->Update(wnd.kbd, wnd.mouse, dt);
+	(*curScene)->Update( wnd.kbd,wnd.mouse,dt );
 }
 
 void Game::CycleScenes()
 {
-	if (++curScene == scenes.end())
+	if( ++curScene == scenes.end() )
 	{
 		curScene = scenes.begin();
 	}
@@ -68,5 +72,5 @@ void Game::CycleScenes()
 void Game::ComposeFrame()
 {
 	// draw scene
-	(*curScene)->Draw(gfx);
+	(*curScene)->Draw( gfx );
 }
