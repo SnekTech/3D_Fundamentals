@@ -33,13 +33,15 @@ Game::Game( MainWindow& wnd )
 	wnd( wnd ),
 	gfx( wnd )
 {
-	scenes.push_back(std::make_unique<SolidCubeScene>());
-	scenes.push_back(std::make_unique<CubeOrderScene>());
-	scenes.push_back(std::make_unique<ConHexScene>());
-	scenes.push_back(std::make_unique<ConHexWireScene>());
-	scenes.push_back(std::make_unique<XMutualScene>());
-	scenes.push_back(std::make_unique<TexCubeScene>());
-	scenes.push_back(std::make_unique<TexWrapCubeScene>());
+	scenes.push_back( std::make_unique<SolidCubeScene>() );
+	scenes.push_back( std::make_unique<CubeOrderScene>() );
+	scenes.push_back( std::make_unique<ConHexScene>() );
+	scenes.push_back( std::make_unique<ConHexWireScene>() );
+	scenes.push_back( std::make_unique<XMutualScene>() );
+	scenes.push_back( std::make_unique<TexCubeScene>() );
+	scenes.push_back( std::make_unique<TexCubeScene>( 2.0f ) );
+	scenes.push_back( std::make_unique<TexWrapCubeScene>( 2.0f ) );
+	scenes.push_back( std::make_unique<TexWrapCubeScene>( 6.0f ) );
 	curScene = scenes.begin();
 }
 
