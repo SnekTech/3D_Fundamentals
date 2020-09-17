@@ -431,22 +431,22 @@ void Graphics::DrawFlatTopTriangle(const Vec2& v0, const Vec2& v1, const Vec2& v
 {
 	// calculate slopes in screen space
 	float m0 = (v2.x - v0.x) / (v2.y - v0.y);
-	float m1 = (v2.x - v1.x) / (v2.y - v0.y);
+	float m1 = (v2.x - v1.x) / (v2.y - v1.y);
 
 	// calculate start and end scanlines
-	const int yStart = (int)ceil(v0.y - 0.5f);
-	const int yEnd = (int)ceil(v2.y - 0.5f); // the scanline AFTER the last line drawn
+	const int yStart = (int)ceil((double)v0.y - 0.5);
+	const int yEnd = (int)ceil((double)v2.y - 0.5); // the scanline AFTER the last line drawn
 
 	for (int y = yStart; y < yEnd; y++)
 	{
 		// calculate start and end points
 		// add 0.5 to y value because we're calculating based on pixel CENTER
-		const float px0 = m0 * ((float)y - v0.y) + v0.x;
-		const float px1 = m1 * ((float)y - v1.y) + v1.x;
+		const float px0 = m0 * ((float)y + 0.5f - v0.y) + v0.x;
+		const float px1 = m1 * ((float)y + 0.5f - v1.y) + v1.x;
 
 		// calculate start and end pixel
-		const int xStart = (int)ceil(px0 - 0.5f);
-		const int xEnd = (int)ceil(px1 - 0.5f);
+		const int xStart = (int)ceil((double)px0 - 0.5);
+		const int xEnd = (int)ceil((double)px1 - 0.5);
 
 		for (int x = xStart; x < xEnd; x++)
 		{
@@ -462,8 +462,8 @@ void Graphics::DrawFlatBottomTriangle(const Vec2& v0, const Vec2& v1, const Vec2
 	const float m1 = (v2.x - v0.x) / (v2.y - v0.y);
 
 	// calculate start and end scanlines
-	const int yStart = (int)ceil(v0.y - 0.5f);
-	const int yEnd = (int)ceil(v2.y - 0.5f);
+	const int yStart = (int)ceil((double)v0.y - 0.5);
+	const int yEnd = (int)ceil((double)v2.y - 0.5);
 
 	for (int y = yStart; y < yEnd; y++)
 	{
@@ -473,8 +473,8 @@ void Graphics::DrawFlatBottomTriangle(const Vec2& v0, const Vec2& v1, const Vec2
 		const float px1 = m1 * ((float)y + 0.5f - v0.y) + v0.x;
 
 		// calculate start and end pixel
-		const int xStart = (int)ceil(px0 - 0.5f);
-		const int xEnd = (int)ceil(px1 - 0.5f);
+		const int xStart = (int)ceil((double)px0 - 0.5);
+		const int xEnd = (int)ceil((double)px1 - 0.5);
 
 		for (int x = xStart; x < xEnd; x++)
 		{
