@@ -1,3 +1,23 @@
+/******************************************************************************************
+*	Chili DirectX Framework Version 16.10.01											  *
+*	Mat2.h																				  *
+*	Copyright 2016 PlanetChili <http://www.planetchili.net>								  *
+*																						  *
+*	This file is part of The Chili DirectX Framework.									  *
+*																						  *
+*	The Chili DirectX Framework is free software: you can redistribute it and/or modify	  *
+*	it under the terms of the GNU General Public License as published by				  *
+*	the Free Software Foundation, either version 3 of the License, or					  *
+*	(at your option) any later version.													  *
+*																						  *
+*	The Chili DirectX Framework is distributed in the hope that it will be useful,		  *
+*	but WITHOUT ANY WARRANTY; without even the implied warranty of						  *
+*	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the						  *
+*	GNU General Public License for more details.										  *
+*																						  *
+*	You should have received a copy of the GNU General Public License					  *
+*	along with The Chili DirectX Framework.  If not, see <http://www.gnu.org/licenses/>.  *
+******************************************************************************************/
 #pragma once
 
 #include "Vec3.h"
@@ -26,6 +46,10 @@ public:
 	{
 		_Mat3 result = *this;
 		return result *= rhs;
+	}
+	_Mat3& operator*=(const _Mat3& rhs)
+	{
+		return *this = *this * rhs;
 	}
 	_Mat3 operator*(const _Mat3& rhs) const
 	{
@@ -58,6 +82,36 @@ public:
 			factor,(T)0.0,(T)0.0,
 			(T)0.0,factor,(T)0.0,
 			(T)0.0,(T)0.0,factor
+		};
+	}
+	static _Mat3 RotationZ(T theta)
+	{
+		const T sinTheta = sin(theta);
+		const T cosTheta = cos(theta);
+		return{
+			 cosTheta, sinTheta, (T)0.0,
+			-sinTheta, cosTheta, (T)0.0,
+			(T)0.0,    (T)0.0,   (T)1.0
+		};
+	}
+	static _Mat3 RotationY(T theta)
+	{
+		const T sinTheta = sin(theta);
+		const T cosTheta = cos(theta);
+		return{
+			 cosTheta, (T)0.0,-sinTheta,
+			 (T)0.0,   (T)1.0, (T)0.0,
+			 sinTheta, (T)0.0, cosTheta
+		};
+	}
+	static _Mat3 RotationX(T theta)
+	{
+		const T sinTheta = sin(theta);
+		const T cosTheta = cos(theta);
+		return{
+			(T)1.0, (T)0.0,   (T)0.0,
+			(T)0.0, cosTheta, sinTheta,
+			(T)0.0,-sinTheta, cosTheta,
 		};
 	}
 public:
