@@ -47,6 +47,7 @@ void Game::ComposeFrame()
 
 	for (auto& v : lines.vertices)
 	{
+		v += { 0.0f, 0.0f, 1.0f };
 		pst.Transform(v);
 	}
 
