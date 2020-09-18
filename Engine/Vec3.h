@@ -107,7 +107,7 @@ public:
 	}
 
 	// cross product
-	_Vec3 operator%(const Vec3& rhs) const
+	_Vec3 operator%(const _Vec3& rhs) const
 	{
 		return _Vec3(
 			y * rhs.z - z * rhs.y,
