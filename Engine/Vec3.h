@@ -105,6 +105,16 @@ public:
 	{
 		return _Vec3(*this) *= rhs;
 	}
+
+	// cross product
+	_Vec3 operator%(const Vec3& rhs) const
+	{
+		return _Vec3(
+			y * rhs.z - z * rhs.y,
+			z * rhs.x - x * rhs.z,
+			x * rhs.y - y * rhs.x
+		);
+	}
 	_Vec3& operator/=(const T& rhs)
 	{
 		x /= rhs;
