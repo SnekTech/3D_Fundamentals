@@ -44,7 +44,7 @@ private:
 		// transform verteices using matrix + vector
 		for (const auto& v : vertices)
 		{
-			verticesOut.emplace_back(v.pos * rotation + translation, v.t);
+			verticesOut.emplace_back(v.pos * rotation + translation, v);
 		}
 
 		// assemble triangles from stream of indices and vertices
@@ -175,7 +175,8 @@ private:
 
 	}
 	// does processing common to both flat top and flat bottom tris
-	// texture lookup and pixel written here
+	// scan over triangle in screen space, interpolate attributes,
+	// invoke ps and write pixel to screen
 	void DrawFlatTriangle(const Vertex& it0, const Vertex& it1, const Vertex& it2,
 		const Vertex& dv0, const Vertex& dv1, Vertex itEdge1)
 	{
