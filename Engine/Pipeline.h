@@ -56,9 +56,9 @@ private:
 		for (size_t i = 0, end = indices.size() / 3; i < end; i++)
 		{
 			// determine triangle vertices via indexing
-			const Vertex& v0 = vertices[indices[i * 3]];
-			const Vertex& v1 = vertices[indices[i * 3 + 1]];
-			const Vertex& v2 = vertices[indices[i * 3 + 2]];
+			const auto& v0 = vertices[indices[i * 3]];
+			const auto& v1 = vertices[indices[i * 3 + 1]];
+			const auto& v2 = vertices[indices[i * 3 + 2]];
 
 			// culling backfacing triangles with cross product(%) shenanigans
 			if ((v1.pos - v0.pos) % (v2.pos - v0.pos) * v0.pos <= 0.0f)

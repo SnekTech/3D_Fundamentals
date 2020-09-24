@@ -35,7 +35,7 @@ public:
 		assert(y < height);
 		return pBuffer[y * width + x];
 	}
-	const float& At(int x, int y) const const
+	const float& At(int x, int y) const
 	{
 		return const_cast<ZBuffer*>(this)->At(x, y);
 	}
