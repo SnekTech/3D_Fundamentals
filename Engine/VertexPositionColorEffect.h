@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Pipeline.h"
+#include "DefaultGeometryShader.h"
 
 class VertexPositionColorEffect
 {
@@ -143,6 +144,8 @@ public:
 		Mat3 rotation;
 		Vec3 translation;
 	};
+	// default gs passes vertices and outputs triangle
+	typedef DefaultGeometryShader<VertexShader::Output> GeometryShader;
 	class PixelShader
 	{
 	public:
@@ -154,5 +157,6 @@ public:
 	};
 public:
 	VertexShader vs;
+	GeometryShader gs;
 	PixelShader ps;
 };
