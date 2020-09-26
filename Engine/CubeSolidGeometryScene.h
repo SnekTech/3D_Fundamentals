@@ -4,20 +4,24 @@
 #include "Cube.h"
 #include "Mat3.h"
 #include "Pipeline.h"
-#include "VertexPositionColorEffect.h"
+#include "SolidGeometryEffect.h"
 
-class CubeVertexPositionColorScene : public Scene
+class CubeSolidGeometryScene : public Scene
 {
 public:
-	typedef Pipeline<VertexPositionColorEffect> Pipeline;
+	typedef Pipeline<SolidGeometryEffect> Pipeline;
 	typedef Pipeline::Vertex Vertex;
 public:
-	CubeVertexPositionColorScene(Graphics& gfx)
+	CubeSolidGeometryScene(Graphics& gfx)
 		:
-		itlist(Cube::GetPlain<Vertex>()),
+		itlist(Cube::GetPlainIndependentFaces<Vertex>()),
 		pipeline(gfx),
-		Scene("Cube vertex position color scene")
-	{}
+		Scene("Colored cube geometry solid face scene")
+	{
+		pipeline.effect.gs.BindColors(
+			{ Colors::Red,Colors::Green,Colors::Blue,Colors::Magenta,Colors::Yellow,Colors::Cyan }
+		);
+	}
 	virtual void Update(Keyboard& kbd, Mouse& mouse, float dt) override
 	{
 		if (kbd.KeyIsPressed('Q'))
