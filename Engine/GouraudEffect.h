@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Pipeline.h"
-#include "DefaultVertexShader.h"
 #include "DefaultGeometryShader.h"
 
 // flat shading with vertex normals
-class VertexFlatEffect
+class GouraudEffect
 {
 public:
 	// the vertex type that will be input into the pipeline
@@ -68,7 +67,7 @@ public:
 		Vec3 n;
 	};
 	// calculate color based on normal to light angle
-	// in interpolation of color attribute
+	// no interpolation of color attribute
 	class VertexShader
 	{
 	public:
@@ -76,41 +75,44 @@ public:
 		{
 		public:
 			Output() = default;
-			Output(const Vec3 & pos)
+			Output(const Vec3& pos)
 				:
 				pos(pos)
 			{}
-			Output(const Vec3 & pos, const Output & src)
+			Output(const Vec3& pos, const Output& src)
 				:
 				color(src.color),
 				pos(pos)
 			{}
-			Output(const Vec3 & pos, const Color & color)
+			Output(const Vec3& pos, const Vec3& color)
 				:
 				color(color),
 				pos(pos)
 			{}
-			Output& operator+=(const Output & rhs)
+			Output& operator+=(const Output& rhs)
 			{
 				pos += rhs.pos;
+				color += rhs.color;
 				return *this;
 			}
-			Output operator+(const Output & rhs) const
+			Output operator+(const Output& rhs) const
 			{
 				return Output(*this) += rhs;
 			}
-			Output& operator-=(const Output & rhs)
+			Output& operator-=(const Output& rhs)
 			{
 				pos -= rhs.pos;
+				color -= rhs.color;
 				return *this;
 			}
-			Output operator-(const Output & rhs) const
+			Output operator-(const Output& rhs) const
 			{
 				return Output(*this) -= rhs;
 			}
 			Output& operator*=(float rhs)
 			{
 				pos *= rhs;
+				color *= rhs;
 				return *this;
 			}
 			Output operator*(float rhs) const
@@ -120,6 +122,7 @@ public:
 			Output& operator/=(float rhs)
 			{
 				pos /= rhs;
+				color /= rhs;
 				return *this;
 			}
 			Output operator/(float rhs) const
@@ -128,7 +131,7 @@ public:
 			}
 		public:
 			Vec3 pos;
-			Color color;
+			Vec3 color;
 		};
 	public:
 		void BindRotation(const Mat3& rotation_in)
@@ -143,9 +146,9 @@ public:
 		{
 			// calculate intensity based on angle of incidence
 			const auto d = diffuse * std::max(0.0f, -(v.n * rotation) * dir);
-			// add different ambient, filter by material color, saturate and scale
+			// add diffuse+ambient, filter by material color, saturate and scale
 			const auto c = color.GetHadamard(d + ambient).Saturate() * 255.0f;
-			return { v.pos * rotation + translation, Color(c) };
+			return{ v.pos * rotation + translation,c };
 		}
 		void SetDiffuseLight(const Vec3& c)
 		{
@@ -184,7 +187,7 @@ public:
 		template<class Input>
 		Color operator()(const Input& in) const
 		{
-			return in.color;
+			return Color(in.color);
 		}
 	};
 public:
